@@ -1,12 +1,15 @@
 #2016-2017 PERSONAL PROJECTS: TurtleChat!
-#WRITE YOUR NAME HERE!
+"hala"
 
 #####################################################################################
 #                                   IMPORTS                                         #
 #####################################################################################
-#import the turtle module
+import turtle
+     
 #import the Client class from the turtle_chat_client module
+from turtle_chat_client import Client
 #Finally, from the turtle_chat_widgets module, import two classes: Button and TextInput
+from turtle_chat_widgets import Button, TextInput
 #####################################################################################
 #####################################################################################
 
@@ -35,6 +38,30 @@
 #
 #3. If you want to make a newline character (i.e. go to the next line), just add
 #   \r to your string.  Test it out at the Python shell for practice
+class TextBox(TextInput):
+    def draw_box(self):
+        self.draw = turtle.clone()
+        self.draw.penup()
+        self.draw.goto(self.pos)
+        self.draw.goto(self.width/2,self.height/2)
+        self.draw.pendown()
+        self.draw.goto(-self.width/2,self.height/2)
+        self.draw.goto(-self.width/2,-self.height/2)
+        self.draw.goto(self.width/2,-self.height/2)
+        self.draw.goto(self.width/2,self.height/2)
+        
+
+        self.draw.stamp()
+        print('hi')
+
+    def write_msg(self):
+         self.writer.write(self.get_msg())
+        #self.writer.write('hello')
+        #self.writer.goto(0,height)
+        #self.writer.goto(width,height)
+       
+TextBox()
+        
 #####################################################################################
 #####################################################################################
 
