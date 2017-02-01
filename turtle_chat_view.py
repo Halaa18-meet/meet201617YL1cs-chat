@@ -56,7 +56,14 @@ class TextBox(TextInput):
         print('hi')
 
     def write_msg(self):
-         self.writer.write(self.get_msg())
+        self.writer.clear()
+        self.writer.write(self.get_msg())
+
+    if self.letters_per_line ==len(self.get_msg()):
+       self.letters_per_line == len(self.get_msg())+"\r"
+       
+       
+         
         #self.writer.write('hello')
         #self.writer.goto(0,height)
         #self.writer.goto(width,height)
