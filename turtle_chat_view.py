@@ -59,8 +59,13 @@ class TextBox(TextInput):
         self.writer.clear()
         self.writer.write(self.get_msg())
 
-    if self.letters_per_line ==len(self.get_msg()):
-       self.letters_per_line == len(self.get_msg())+"\r"
+    def write_msg(self):
+        self.writer.clear()
+        if len(self.get_msg()) % self.letters_per_line == 0:
+            self.new_msg=self.new_msg+"\r"
+        print(self.get_msg())
+        self.writer.write(self.get_msg())
+        
        
        
          
@@ -69,13 +74,18 @@ class TextBox(TextInput):
         #self.writer.goto(width,height)
        
 TextBox()
+
+
+        
+        
+    
+    
         
 #####################################################################################
 #####################################################################################
 
 #####################################################################################
-#                                  SendButton                                       #
-#####################################################################################
+#                                  SendButton                               #####################################################################################
 #Make a class called SendButton, which will be a subclass of Button.
 #Button is an abstract class with one abstract method: fun.
 #fun gets called whenever the button is clicked.  It's jobs will be to
@@ -91,7 +101,19 @@ TextBox()
 #####################################################################################
 #####################################################################################
 
+class SendButton(Button):
+    def fun(self):
+        self.view.send_msg()
+        self.view=recieve_msg()
 
+    def __init__(self,my_turtle=None,shape=None,pos=(0,0) ):
+        super(SendButton,self).__init__(self, my_turtle,shape,pos)
+        self.view=view()
+
+SendButton()
+
+    
+    
 ##################################################################
 #                             View                               #
 ##################################################################
