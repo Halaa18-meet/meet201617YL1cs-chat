@@ -102,13 +102,13 @@ TextBox()
 #####################################################################################
 
 class SendButton(Button):
+    def __init__(self,view):
+        self.view=view()
+        super(SendButton,self).__init__()
     def fun(self):
         self.view.send_msg()
-        self.view=recieve_msg()
 
-    def __init__(self,my_turtle=None,shape=None,pos=(0,0) ):
-        super(SendButton,self).__init__(self, my_turtle,shape,pos)
-        self.view=view()
+   
 
 SendButton()
 
@@ -130,6 +130,12 @@ class View:
     _LINE_SPACING=round(_SCREEN_HEIGHT/2/(_MSG_LOG_LENGTH+1))
 
     def __init__(self,username='Me',partner_name='Partner'):
+        self.username= username
+        self.partnername=partnername
+        self.my_client=Client()
+        turtle.setup(width=self._SCREEN_WIDTH,height=self._SCREEN_HEIGHT,startx=None,starty=None)
+        
+        
         '''
         :param username: the name of this chat user
         :param partner_name: the name of the user you are chatting with
@@ -156,16 +162,22 @@ class View:
         #   self.msg_queue.append(a_msg_string)
         self.msg_queue=[]
 
+        
+
         ###
         #Create one turtle object for each message to display.
         #You can use the clear() and write() methods to erase
         #and write messages for each
         ###
+        self.write_msg=turtle.clone()
+
 
         ###
         #Create a TextBox instance and a SendButton instance and
         #Store them inside of this instance
         ###
+        self.TextBox=TextBox()
+        
 
         ###
         #Call your setup_listeners() function, if you have one,
