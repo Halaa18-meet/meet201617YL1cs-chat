@@ -102,15 +102,15 @@ TextBox()
 #####################################################################################
 
 class SendButton(Button):
-    def __init__(self,view):
-        self.view=view()
-        super(SendButton,self).__init__()
-    def fun(self):
-        self.view.send_msg()
+    def __init__(self,my_turtle=None,shape=None,pos=(0,0),view=None):
+        super(SendButton,self).__init__(my_turtle=None,shape=None,pos=(0,-150))
+        self.view=view
+    def fun(self,x=None,y=None):
+        self.view.send_msg() 
+        
 
-   
 
-SendButton()
+
 
     
     
@@ -131,7 +131,7 @@ class View:
 
     def __init__(self,username='Me',partner_name='Partner'):
         self.username= username
-        self.partnername=partnername
+        self.partner_name=partner_name
         self.my_client=Client()
         turtle.setup(width=self._SCREEN_WIDTH,height=self._SCREEN_HEIGHT,startx=None,starty=None)
         
@@ -143,8 +143,9 @@ class View:
         ###
         #Store the username and partner_name into the instance.
         ###
-
+ 
         #Make a new client object and store it in this instance.
+
 
         #Set screen dimensions using turtle.setup
         #You can get help on this function, as with other turtle functions,
@@ -161,6 +162,11 @@ class View:
         #or at the end of the list using
         #   self.msg_queue.append(a_msg_string)
         self.msg_queue=[]
+        
+
+        self.hala=turtle.clone()
+        self.hala.penup()
+        self.hala.goto(-170,-100)
 
         
 
@@ -169,14 +175,16 @@ class View:
         #You can use the clear() and write() methods to erase
         #and write messages for each
         ###
-        self.write_msg=turtle.clone()
 
 
         ###
         #Create a TextBox instance and a SendButton instance and
         #Store them inside of this instance
         ###
+
         self.TextBox=TextBox()
+        self.send_button=SendButton(view=self)
+
         
 
         ###
@@ -194,6 +202,12 @@ class View:
         It should call self.display_msg() to cause the message
         display to be updated.
         '''
+        
+    def send_msg(self):
+        self.my_client.send(self.TextBox.new_msg)
+        self.msg_queue.append(self.TextBox.new_msg)
+        self.TextBox.clear_msg()
+        self.display_msg()
         pass
 
     def get_msg(self):
@@ -223,12 +237,17 @@ class View:
         '''
         print(msg) #Debug - print message
         show_this_msg=self.partner_name+' says:\r'+ msg
+        self.msg_queue.insert(0,msg)
+        self.display_msg() 
         #Add the message to the queue either using insert (to put at the beginning)
         #or append (to put at the end).
         #
         #Then, call the display_msg method to update the display
 
     def display_msg(self):
+        self.hala.clear()
+        self.hala.write(self.msg_queue[0])
+        
         '''
         This method should update the messages displayed in the screen.
         You can get the messages you want from self.msg_queue
